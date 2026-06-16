@@ -36,12 +36,12 @@
             lblCaptionDateArchived = new Label();
             lblCaptionRecipeStatus = new Label();
             lblCaptionAmountCalories = new Label();
-            txtDateDrafted = new TextBox();
-            txtDatePublished = new TextBox();
-            txtDateArchived = new TextBox();
-            txtRecipeStatus = new TextBox();
             txtAmountCalories = new TextBox();
-            lblRecipe = new Label();
+            txtRecipeName = new TextBox();
+            txtDateDrafted = new TextBox();
+            lblDatePublished = new Label();
+            lblDateArchived = new Label();
+            lblRecipeStatus = new Label();
             tblMain.SuspendLayout();
             SuspendLayout();
             // 
@@ -57,11 +57,11 @@
             tblMain.Controls.Add(lblCaptionRecipeStatus, 0, 4);
             tblMain.Controls.Add(lblCaptionAmountCalories, 0, 5);
             tblMain.Controls.Add(txtDateDrafted, 1, 1);
-            tblMain.Controls.Add(txtDatePublished, 1, 2);
-            tblMain.Controls.Add(txtDateArchived, 1, 3);
-            tblMain.Controls.Add(txtRecipeStatus, 1, 4);
             tblMain.Controls.Add(txtAmountCalories, 1, 5);
-            tblMain.Controls.Add(lblRecipe, 1, 0);
+            tblMain.Controls.Add(txtRecipeName, 1, 0);
+            tblMain.Controls.Add(lblDatePublished, 1, 2);
+            tblMain.Controls.Add(lblDateArchived, 1, 3);
+            tblMain.Controls.Add(lblRecipeStatus, 1, 4);
             tblMain.Dock = DockStyle.Fill;
             tblMain.Location = new Point(0, 0);
             tblMain.Margin = new Padding(4, 3, 4, 3);
@@ -144,48 +144,9 @@
             lblCaptionAmountCalories.TabIndex = 5;
             lblCaptionAmountCalories.Text = "Amount Calories";
             // 
-            // txtDateDrafted
-            // 
-            txtDateDrafted.Dock = DockStyle.Fill;
-            txtDateDrafted.Location = new Point(328, 54);
-            txtDateDrafted.Margin = new Padding(4, 3, 4, 3);
-            txtDateDrafted.Multiline = true;
-            txtDateDrafted.Name = "txtDateDrafted";
-            txtDateDrafted.Size = new Size(316, 45);
-            txtDateDrafted.TabIndex = 7;
-            // 
-            // txtDatePublished
-            // 
-            txtDatePublished.Dock = DockStyle.Fill;
-            txtDatePublished.Location = new Point(328, 105);
-            txtDatePublished.Margin = new Padding(4, 3, 4, 3);
-            txtDatePublished.Multiline = true;
-            txtDatePublished.Name = "txtDatePublished";
-            txtDatePublished.Size = new Size(316, 45);
-            txtDatePublished.TabIndex = 8;
-            // 
-            // txtDateArchived
-            // 
-            txtDateArchived.Dock = DockStyle.Fill;
-            txtDateArchived.Location = new Point(328, 156);
-            txtDateArchived.Margin = new Padding(4, 3, 4, 3);
-            txtDateArchived.Multiline = true;
-            txtDateArchived.Name = "txtDateArchived";
-            txtDateArchived.Size = new Size(316, 45);
-            txtDateArchived.TabIndex = 9;
-            // 
-            // txtRecipeStatus
-            // 
-            txtRecipeStatus.Dock = DockStyle.Fill;
-            txtRecipeStatus.Location = new Point(328, 207);
-            txtRecipeStatus.Margin = new Padding(4, 3, 4, 3);
-            txtRecipeStatus.Multiline = true;
-            txtRecipeStatus.Name = "txtRecipeStatus";
-            txtRecipeStatus.Size = new Size(316, 45);
-            txtRecipeStatus.TabIndex = 10;
-            // 
             // txtAmountCalories
             // 
+            txtAmountCalories.BorderStyle = BorderStyle.None;
             txtAmountCalories.Dock = DockStyle.Fill;
             txtAmountCalories.Location = new Point(328, 258);
             txtAmountCalories.Margin = new Padding(4, 3, 4, 3);
@@ -194,15 +155,52 @@
             txtAmountCalories.Size = new Size(316, 46);
             txtAmountCalories.TabIndex = 11;
             // 
-            // lblRecipe
+            // txtRecipeName
             // 
-            lblRecipe.BorderStyle = BorderStyle.FixedSingle;
-            lblRecipe.Dock = DockStyle.Fill;
-            lblRecipe.Location = new Point(328, 0);
-            lblRecipe.Margin = new Padding(4, 0, 4, 0);
-            lblRecipe.Name = "lblRecipe";
-            lblRecipe.Size = new Size(316, 51);
-            lblRecipe.TabIndex = 12;
+            txtRecipeName.BorderStyle = BorderStyle.None;
+            txtRecipeName.Dock = DockStyle.Fill;
+            txtRecipeName.Location = new Point(327, 3);
+            txtRecipeName.Multiline = true;
+            txtRecipeName.Name = "txtRecipeName";
+            txtRecipeName.Size = new Size(318, 45);
+            txtRecipeName.TabIndex = 12;
+            // 
+            // txtDateDrafted
+            // 
+            txtDateDrafted.BorderStyle = BorderStyle.None;
+            txtDateDrafted.Dock = DockStyle.Fill;
+            txtDateDrafted.Location = new Point(328, 54);
+            txtDateDrafted.Margin = new Padding(4, 3, 4, 3);
+            txtDateDrafted.Multiline = true;
+            txtDateDrafted.Name = "txtDateDrafted";
+            txtDateDrafted.Size = new Size(316, 45);
+            txtDateDrafted.TabIndex = 7;
+            // 
+            // lblDatePublished
+            // 
+            lblDatePublished.Dock = DockStyle.Fill;
+            lblDatePublished.Location = new Point(327, 102);
+            lblDatePublished.Name = "lblDatePublished";
+            lblDatePublished.Size = new Size(318, 51);
+            lblDatePublished.TabIndex = 13;
+            // 
+            // lblDateArchived
+            // 
+            lblDateArchived.AutoSize = true;
+            lblDateArchived.Dock = DockStyle.Fill;
+            lblDateArchived.Location = new Point(327, 153);
+            lblDateArchived.Name = "lblDateArchived";
+            lblDateArchived.Size = new Size(318, 51);
+            lblDateArchived.TabIndex = 14;
+            // 
+            // lblRecipeStatus
+            // 
+            lblRecipeStatus.AutoSize = true;
+            lblRecipeStatus.Dock = DockStyle.Fill;
+            lblRecipeStatus.Location = new Point(327, 204);
+            lblRecipeStatus.Name = "lblRecipeStatus";
+            lblRecipeStatus.Size = new Size(318, 51);
+            lblRecipeStatus.TabIndex = 15;
             // 
             // frmRecipe
             // 
@@ -229,11 +227,11 @@
         private Label lblCaptionDateArchived;
         private Label lblCaptionRecipeStatus;
         private Label lblCaptionAmountCalories;
-        private TextBox txtDateDrafted;
-        private TextBox txtDatePublished;
-        private TextBox txtDateArchived;
-        private TextBox txtRecipeStatus;
         private TextBox txtAmountCalories;
-        private Label lblRecipe;
+        private TextBox txtRecipeName;
+        private TextBox txtDateDrafted;
+        private Label lblDatePublished;
+        private Label lblDateArchived;
+        private Label lblRecipeStatus;
     }
 }

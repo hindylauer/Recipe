@@ -21,11 +21,11 @@ namespace RecipeWinForms
         {
             string sql = "select * from recipe r where r.RecipeId =" + recipeid.ToString();
             DataTable dt = SQLUtility.GetDataTable(sql);
-            lblRecipe.DataBindings.Add("Text", dt, "RecipeName");
+            txtRecipeName.DataBindings.Add("Text", dt, "RecipeName");
             txtDateDrafted.DataBindings.Add("Text", dt, "DateDrafted");
-            txtDatePublished.DataBindings.Add("Text", dt, "DatePublished");
-            txtDateArchived.DataBindings.Add("Text", dt, "DateArchived");
-            txtRecipeStatus.DataBindings.Add("Text", dt, "RecipeStatus");
+            lblDatePublished.DataBindings.Add("Text", dt, "DatePublished");
+            lblDateArchived.DataBindings.Add("Text", dt, "DateArchived");
+            lblRecipeStatus.DataBindings.Add("Text", dt, "RecipeStatus");
             txtAmountCalories.DataBindings.Add("Text", dt, "AmountCalories");
 
             this.Show();

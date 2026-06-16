@@ -10,13 +10,15 @@ namespace RecipeWinForms
             InitializeComponent();
             btnSearch.Click += BtnSearch_Click;
             gRecipe.CellDoubleClick += GRecipe_CellDoubleClick;
+            btnNew.Click += BtnNew_Click;
             FormatGrid();
         }
 
 
+
         private void SearchForRecipe(string recipe)
         {
-            string sql = "select RecipeId, RecipeName, RecipeStatus, AmountCalories from recipe where RecipeName like '%" + recipe + "%'";
+            string sql = "select RecipeId, RecipeName, RecipeStatus, AmountCalories from recipe r where RecipeName like '%" + recipe + "%'";
 
             DataTable dt = SQLUtility.GetDataTable(sql);
             gRecipe.DataSource = dt;
@@ -49,5 +51,12 @@ namespace RecipeWinForms
         {
             SearchForRecipe(txtRecipe.Text);
         }
+
+        private void BtnNew_Click(object? sender, EventArgs e)
+        {
+
+        }
+
+
     }
 }

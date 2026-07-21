@@ -22,9 +22,11 @@ namespace RecipeWinForms
             dtrecipe = Recipe.Load(recipeid);
             if(recipeid == 0)
             {
-                dtrecipe.Rows.Add();
+                DataRow r = dtrecipe.Rows.Add();
+                r["RecipeId"] = 0;
+                r["DateDrafted"] = DateTime.Today;
             }
-            DataTable dtusers = Recipe.GetRecipeList();
+            DataTable dtusers = Recipe.GetWebUserList();
             DataTable dtcuisines = Recipe.GetCuisineList();
 
             WindowsFormsUtility.SetListBinding(lstWebUserName, dtusers, dtrecipe, "WebUser");

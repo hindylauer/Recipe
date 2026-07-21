@@ -41,7 +41,12 @@ namespace RecipeSystem
         public static void Save(DataTable dtrecipe)
         {
             DataRow r = dtrecipe.Rows[0];
-            int id = (int)r["RecipeId"];
+            int id = 0;
+            if(r["RecipeId"] != DBNull.Value)
+            {
+                id = (int)r["RecipeId"];
+            }
+                
             string sql = "";
 
             if (id > 0)
@@ -56,7 +61,7 @@ namespace RecipeSystem
             }
             else
             {
-                sql = "insert recipe(WebUserId, CuisineId, RecipeName, DateDrafted, AmountCalories)";
+                sql = "insert recipe(WebUserId, CuisineId, RecipeName, DateDrafted, AmountCalories) ";
                 sql += $"select {r["WebUserId"]}, {r["CuisineId"]}, '{r["RecipeName"]}', '{r["DateDrafted"]}', {r["AmountCalories"]}";
             }
 

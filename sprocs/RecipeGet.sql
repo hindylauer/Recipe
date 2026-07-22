@@ -23,3 +23,12 @@ exec RecipeGet @RecipeName = 'b'
 exec RecipeGet @RecipeName = null
 
 exec RecipeGet @RecipeName = ''
+
+select *
+from sys.procedures
+where name = 'RecipeGet';
+
+select
+    ServerName = @@SERVERNAME,
+    DatabaseName = DB_NAME(),
+    ProcedureId = OBJECT_ID('dbo.RecipeGet');

@@ -21,6 +21,8 @@ namespace RecipeWinForms
             DataTable dt = Recipe.SearchRecipes(recipe);
             gRecipe.DataSource = dt;
             gRecipe.Columns["RecipeId"].Visible = false;
+            gRecipe.Columns["WebUserId"].Visible = false;
+            gRecipe.Columns["CuisineId"].Visible = false;
         }
 
         private void ShowRecipeForm(int rowindex)

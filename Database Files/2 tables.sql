@@ -41,24 +41,24 @@ create table dbo.Recipe(
     WebUserId int not null constraint f_WebUser_Recipe foreign key references WebUser(WebUserId),
     CuisineId int not null constraint f_Cuisine_Recipe foreign key references Cuisine(CuisineId),
     RecipeName varchar(50) not null
-        constraint c_Recipe_RecipeName_cannot_be_blank check(RecipeName <> '')
-        constraint u_Recipe_RecipeName unique,
+        constraint ck_RecipeName_cannot_be_blank check(RecipeName <> '')
+        constraint u_RecipeName unique,
     DateDrafted datetime not null
-        constraint c_Recipe_DateDrafted_must_be_between_01_01_2010_and_currentdate check(DateDrafted between '01/01/2010' and getdate()),
+        constraint ck_Recipe_DateDrafted_must_be_between_01_01_2010_and_currentdate check(DateDrafted between '01/01/2010' and getdate()),
     DatePublished datetime
-        constraint c_Recipe_DatePublished_before_currentdate check(DatePublished <= getdate()),
+        constraint ck_Recipe_DatePublished_before_currentdate check(DatePublished <= getdate()),
     DateArchived datetime
-        constraint c_Recipe_DateArchived_before_currentdate check (DateArchived <= getdate()),
+        constraint ck_Recipe_DateArchived_before_currentdate check (DateArchived <= getdate()),
     RecipeStatus as case
                         when DateArchived is not null then 'Archived'
                         when DatePublished is not null then 'Published'
                         else 'Drafted' end persisted,
     AmountCalories int not null,
-        constraint c_Recipe_AmountCalories_must_be_greater_than_zero check(AmountCalories > 0),
+        constraint ck_Recipe_AmountCalories_must_be_greater_than_zero check(AmountCalories > 0),
     RecipeImage as concat('Recipe_', replace(RecipeName, ' ', '_'), '.jpg'),
-                constraint c_Recipe_DateDrafted_DatePublished_DatePublished_greater_or_equal_to_DateDrafted check(DatePublished >= DateDrafted),
-                constraint c_Recipe_DateArchived_DatePublished_DateArchived_greater_or_equal_to_DatePublished check(DateArchived >= DatePublished),
-                constraint c_Recipe_DateArchived_DateDrafted_DateArchived_greater_or_equal_to_DateDrafted check(DateArchived >= DateDrafted) 
+                constraint ck_DatePublished_must_be_greater_or_equal_to_DateDrafted check(DatePublished >= DateDrafted),
+                constraint ck_DateArchived_must_be_greater_or_equal_to_DatePublished check(DateArchived >= DatePublished),
+                constraint ck_DateArchived_must_be_greater_or_equal_to_DateDrafted check(DateArchived >= DateDrafted) 
 ) 
 go
 

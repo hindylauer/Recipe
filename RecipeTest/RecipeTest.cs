@@ -2,6 +2,7 @@
 using NUnit.Framework.Legacy;
 using System.Data;
 using System.Numerics;
+using System.Security.Cryptography;
 
 namespace RecipeTest
 {
@@ -87,6 +88,54 @@ namespace RecipeTest
             TestContext.WriteLine("datedrafted for recipe(" + recipeid + ") = " + newdatedrafted);
         }
 
+
+        [Test]
+        public void ChangeExistingRecipeToInvalidDateDrafted()
+        {
+            int recipeid = GetExistingPublishedRecipeId();
+            Assume.That(recipeid > 0, "No recipes in DB, can't run test");
+
+            DateTime datedrafted = SQLUtility.GetFirstColumnFirstRowsDateTime("select datedrafted from recipe where recipeid = " + recipeid);
+            TestContext.WriteLine("datedrafted for recipeid " + recipeid + " is " + datedrafted);
+
+            DateTime datepublished = SQLUtility.GetFirstColumnFirstRowsDateTime("select datepublished from recipe where recipeid = " + recipeid);
+            TestContext.WriteLine("datepublished for recipeid " + recipeid + " is " + datepublished);
+
+
+            datedrafted = datepublished.AddDays(1);
+            TestContext.WriteLine("change datedrafted to " + datedrafted);
+
+            DataTable dt = Recipe.Load(recipeid);
+            dt.Rows[0]["datedrafted"] = datedrafted;
+
+            Exception ex = ClassicAssert.Throws<Exception>(() => Recipe.Save(dt));
+            TestContext.WriteLine(ex.Message);
+        }
+
+
+        [Test]
+        public void ChangeExistingRecipeToInvalidRecipeName()
+        {
+            int recipeid = GetExistingRecipeId();
+            Assume.That(recipeid > 0, "No recipes in DB, can't run test");
+
+            string recipename = SQLUtility.GetFirstColumnFirstRowString("select recipename from recipe where recipeid = " + recipeid);
+            TestContext.WriteLine("recipename for recipeid " + recipeid + " is " + recipename);
+
+            string otherrecipename = SQLUtility.GetFirstColumnFirstRowString("select recipename from recipe where recipeid <> " + recipeid);
+            TestContext.WriteLine("recipename for a different recipe is  " + otherrecipename);
+
+            TestContext.WriteLine("change " + recipename + " to " + otherrecipename);
+
+            DataTable dt = Recipe.Load(recipeid);
+            dt.Rows[0]["recipename"] = otherrecipename;
+
+            Exception ex = ClassicAssert.Throws<Exception>(() => Recipe.Save(dt));
+            TestContext.WriteLine(ex.Message);
+
+        }
+
+
         [Test]
         public void ChangeExistingRecipeAmountCalories()
         {
@@ -111,7 +160,7 @@ namespace RecipeTest
         [Test]
         public void DeleteRecipe()
         {
-            DataTable dt = SQLUtility.GetDataTable("select top 1 r.* from recipe r left join RecipeIngredient ri on ri.RecipeId = r.RecipeId left join Direction d on d.RecipeId = r.RecipeId left join RecipeCourseMeal rcm on rcm.RecipeId = r.RecipeId left join RecipeCookBook rcb on rcb.RecipeId = r.recipeid where ri.RecipeId is null and d.RecipeId is null and rcm.RecipeId is null and rcb.RecipeId is null");
+            DataTable dt = SQLUtility.GetDataTable("select top 1 r.RecipeId, r.WebUserId, r.CuisineId, r.RecipeName, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeStatus, r.AmountCalories, r.RecipeImage from recipe r left join RecipeIngredient ri on ri.RecipeId = r.RecipeId left join Direction d on d.RecipeId = r.RecipeId left join RecipeCourseMeal rcm on rcm.RecipeId = r.RecipeId left join RecipeCookBook rcb on rcb.RecipeId = r.recipeid where ri.RecipeId is null and d.RecipeId is null and rcm.RecipeId is null and rcb.RecipeId is null");
             int recipeid = 0;
             Assume.That(dt.Rows.Count > 0, "no recipes without related records in DB, can't test");
 
@@ -126,6 +175,26 @@ namespace RecipeTest
 
             TestContext.WriteLine("Record with recipeid " + recipeid + " doesn't exist in DB");
             
+        }
+
+        [Test]
+        public void DeleteRecipeWithRecipeIngredient()
+        {
+            DataTable dt = SQLUtility.GetDataTable("select top 1 r.RecipeId, r.WebUserId, r.CuisineId, r.RecipeName, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeStatus, r.AmountCalories, r.RecipeImage from recipe r join RecipeIngredient ri on ri.RecipeId = r.RecipeId left join Direction d on d.RecipeId = r.RecipeId left join RecipeCourseMeal rcm on rcm.RecipeId = r.RecipeId left join RecipeCookBook rcb on rcb.RecipeId = r.recipeid");
+            int recipeid = 0;
+            if(dt.Rows.Count > 0)
+            {
+                recipeid = (int)dt.Rows[0]["recipeid"];
+            }
+            Assume.That(recipeid > 0, "No recipes with recipeingredient in DB, can't run test");
+
+            TestContext.WriteLine("existing recipe with recipeingredient, with id = " + recipeid);
+            TestContext.WriteLine("ensure that app cannot delete " + recipeid);
+
+            Exception ex = ClassicAssert.Throws<Exception>(() => Recipe.Delete(dt));
+
+            TestContext.WriteLine(ex.Message);
+
         }
 
 
@@ -164,6 +233,9 @@ namespace RecipeTest
             return SQLUtility.GetFirstColumnFirstRowValue("select top 1 recipeid from recipe order by newid()");
         }
 
-
+        private int GetExistingPublishedRecipeId()
+        {
+            return SQLUtility.GetFirstColumnFirstRowValue("select top 1 recipeid from recipe where datepublished is not null order by newid()");
+        }
     }
 }

@@ -81,7 +81,7 @@ go
 
 create table dbo.RecipeIngredient(
     RecipeIngredientId int not null identity primary key,
-    RecipeId int not null constraint f_RecipeIngredient_Recipe foreign key references Recipe(RecipeId),
+    RecipeId int not null constraint f_Recipe_RecipeIngredient foreign key references Recipe(RecipeId),
     IngredientId int not null constraint f_RecipeIngredient_Ingredient foreign key references Ingredient(IngredientId),
     MeasurementId int constraint f_RecipeIngredient_Measurement foreign key references Measurement(MeasurementId),
     MeasurementAmount decimal(10,2)
@@ -94,7 +94,7 @@ go
 
 create table dbo.Direction(
     DirectionId int not null identity primary key,
-    RecipeId int not null constraint f_Direction_Recipe foreign key references Recipe(RecipeId),
+    RecipeId int not null constraint f_Recipe_Direction foreign key references Recipe(RecipeId),
     RecipeSequence int not null,
     RecipeDirection varchar(150) not null
         constraint c_Direction_IngredientDirection_cannot_be_blank check(RecipeDirection <> '')
@@ -136,7 +136,7 @@ go
 
 create table dbo.RecipeCourseMeal(
     RecipeCourseMealId int not null identity primary key,
-    RecipeId int not null constraint f_RecipeCourseMeal_Recipe foreign key references Recipe(RecipeId),
+    RecipeId int not null constraint f_Recipe_RecipeCourseMeal foreign key references Recipe(RecipeId),
     CourseMealId int not null constraint f_RecipeCourseMeal_CourseMeal foreign key references CourseMeal(CourseMealId),
     CourseType bit default 0 not null
            constraint u_RecipeCourseMeal_CourseMealId_RecipeId unique(CourseMealId, RecipeId)
@@ -160,7 +160,7 @@ go
 
 create table dbo.RecipeCookBook(
     RecipeCookBookId int not null identity primary key,
-    RecipeId int constraint f_RecipeCookBook_Recipe foreign key references Recipe(RecipeId),
+    RecipeId int constraint f_Recipe_RecipeCookBook foreign key references Recipe(RecipeId),
     CookBookId int constraint f_RecipeCookBook_CookBook foreign key references CookBook(CookBookId),
     RecipeSequence int not null
         constraint c_RecipeCookBook_RecipeSequence_must_be_greater_than_zero check(RecipeSequence > 0),

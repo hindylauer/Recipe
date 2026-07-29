@@ -63,23 +63,23 @@ namespace RecipeSystem
             {
                 id = (int)r["RecipeId"];
             }
-                
+            
             string sql = "";
 
             if (id > 0)
             {
                 sql = string.Join(Environment.NewLine, $"update recipe set",
-                    $"WebUserId = '{r["WebUserId"]}',",
-                    $"CuisineId = '{r["CuisineId"]}',",
-                    $"RecipeName = '{r["RecipeName"]}',",
-                    $"DateDrafted = '{r["DateDrafted"]}',",
-                    $"AmountCalories = '{r["AmountCalories"]}'",
+                    $"WebUserId =  {SQLUtility.SqlValue(r["WebUserId"])}",
+                    $"CuisineId =  {SQLUtility.SqlValue(r["CuisineId"])}",
+                    $"RecipeName = {SQLUtility.SqlValue(r["RecipeName"])}",
+                    $"DateDrafted = {SQLUtility.SqlValue(r["DateDrafted"])}",
+                    $"AmountCalories = {SQLUtility.SqlValue(r["AmountCalories"])}",
                     $"where RecipeId = {r["RecipeId"]}");
             }
             else
             {
                 sql = "insert recipe(WebUserId, CuisineId, RecipeName, DateDrafted, AmountCalories) ";
-                sql += $"select {r["WebUserId"]}, {r["CuisineId"]}, '{r["RecipeName"]}', '{r["DateDrafted"]}', {r["AmountCalories"]}";
+                sql += $"select {SQLUtility.SqlValue(r["WebUserId"])}, {SQLUtility.SqlValue(r["CuisineId"])}, {SQLUtility.SqlValue(r["RecipeName"])}, {SQLUtility.SqlValue(r["DateDrafted"])}, {SQLUtility.SqlValue(r["AmountCalories"])}";
             }
 
             SQLUtility.ExecuteSql(sql);

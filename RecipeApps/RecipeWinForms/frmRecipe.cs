@@ -42,10 +42,41 @@ namespace RecipeWinForms
             this.Show();
         }
 
+        private bool IsValid()
+        {
+            string msg = "";
 
+            if (txtRecipeName.Text.Trim() == "")
+            {
+                msg += "Recipe name is required.\n";
+            }
+            if (txtAmountCalories.Text.Trim() == "")
+            {
+                msg += "Amount Calories is required.\n";
+            }
+            if (lstWebUserName.SelectedIndex == -1)
+            {
+                msg += "User is required.\n";
+            }
+            if (lstCuisineName.SelectedIndex == -1)
+            {
+                msg += "Cuisine is required.\n";
+            }
+            if(msg != "")
+            {
+                MessageBox.Show(msg, "Recipe");
+                return false;
+            }
+            return true;
+        }
 
         private void Save()
         {
+            if (IsValid() == false)
+            {
+                return;
+            }
+
             Application.UseWaitCursor = true;
             try
             {
@@ -79,6 +110,10 @@ namespace RecipeWinForms
                 Application.UseWaitCursor = false;
             }
         }
+
+
+
+
 
         private void BtnDelete_Click(object? sender, EventArgs e)
         {

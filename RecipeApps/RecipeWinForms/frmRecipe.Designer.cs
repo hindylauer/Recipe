@@ -39,13 +39,13 @@
             lblCaptionUser = new Label();
             lblCaptionDateDrafted = new Label();
             lblCaptionCuisine = new Label();
-            dtpDateDrafted = new DateTimePicker();
             txtAmountCalories = new TextBox();
             lblRecipeStatus = new Label();
             lblDatePublished = new Label();
             lblDateArchived = new Label();
             lstWebUserName = new ComboBox();
             lstCuisineName = new ComboBox();
+            lblDateDrafted = new Label();
             tsMain = new ToolStrip();
             btnSave = new ToolStripButton();
             toolStripSeparator1 = new ToolStripSeparator();
@@ -69,13 +69,13 @@
             tblMain.Controls.Add(lblCaptionUser, 0, 1);
             tblMain.Controls.Add(lblCaptionDateDrafted, 0, 3);
             tblMain.Controls.Add(lblCaptionCuisine, 0, 2);
-            tblMain.Controls.Add(dtpDateDrafted, 1, 3);
             tblMain.Controls.Add(txtAmountCalories, 1, 7);
             tblMain.Controls.Add(lblRecipeStatus, 1, 6);
             tblMain.Controls.Add(lblDatePublished, 1, 4);
             tblMain.Controls.Add(lblDateArchived, 1, 5);
             tblMain.Controls.Add(lstWebUserName, 1, 1);
             tblMain.Controls.Add(lstCuisineName, 1, 2);
+            tblMain.Controls.Add(lblDateDrafted, 1, 3);
             tblMain.Location = new Point(0, 39);
             tblMain.Margin = new Padding(4, 3, 4, 3);
             tblMain.Name = "tblMain";
@@ -187,14 +187,6 @@
             lblCaptionCuisine.TabIndex = 18;
             lblCaptionCuisine.Text = "Cuisine";
             // 
-            // dtpDateDrafted
-            // 
-            dtpDateDrafted.Format = DateTimePickerFormat.Short;
-            dtpDateDrafted.Location = new Point(177, 114);
-            dtpDateDrafted.Name = "dtpDateDrafted";
-            dtpDateDrafted.Size = new Size(180, 35);
-            dtpDateDrafted.TabIndex = 4;
-            // 
             // txtAmountCalories
             // 
             txtAmountCalories.BorderStyle = BorderStyle.None;
@@ -249,6 +241,15 @@
             lstCuisineName.Name = "lstCuisineName";
             lstCuisineName.Size = new Size(465, 36);
             lstCuisineName.TabIndex = 3;
+            // 
+            // lblDateDrafted
+            // 
+            lblDateDrafted.AutoSize = true;
+            lblDateDrafted.Dock = DockStyle.Fill;
+            lblDateDrafted.Location = new Point(177, 111);
+            lblDateDrafted.Name = "lblDateDrafted";
+            lblDateDrafted.Size = new Size(465, 37);
+            lblDateDrafted.TabIndex = 19;
             // 
             // tsMain
             // 
@@ -325,7 +326,6 @@
         private Label lblDatePublished;
         private Label lblDateArchived;
         private Label lblRecipeStatus;
-        private DateTimePicker dtpDateDrafted;
         private Label lblCaptionUser;
         private Label lblCaptionCuisine;
         private ComboBox lstWebUserName;
@@ -335,5 +335,6 @@
         private ToolStripSeparator toolStripSeparator1;
         private ToolStripButton btnDelete;
         private ToolStripSeparator toolStripSeparator2;
+        private Label lblDateDrafted;
     }
 }

@@ -1,10 +1,4 @@
-﻿using CPUFramework;
-using NUnit.Framework.Legacy;
-using System.Data;
-using System.Numerics;
-using System.Security.Cryptography;
-
-namespace RecipeTest
+﻿namespace RecipeTest
 {
     public class RecipeTest
     {
@@ -160,7 +154,7 @@ namespace RecipeTest
         [Test]
         public void DeleteRecipe()
         {
-            DataTable dt = SQLUtility.GetDataTable("select top 1 r.RecipeId, r.WebUserId, r.CuisineId, r.RecipeName, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeStatus, r.AmountCalories, r.RecipeImage from recipe r left join RecipeIngredient ri on ri.RecipeId = r.RecipeId left join Direction d on d.RecipeId = r.RecipeId left join RecipeCourseMeal rcm on rcm.RecipeId = r.RecipeId left join RecipeCookBook rcb on rcb.RecipeId = r.recipeid where ri.RecipeId is null and d.RecipeId is null and rcm.RecipeId is null and rcb.RecipeId is null");
+            DataTable dt = SQLUtility.GetDataTable("select top 1 r.RecipeId, r.WebUserId, r.CuisineId, r.RecipeName, r.DateDrafted, r.DatePublished, r.DateArchived, r.RecipeStatus, r.AmountCalories, r.RecipeImage from recipe r left join RecipeIngredient ri on ri.RecipeId = r.RecipeId left join Direction d on d.RecipeId = r.RecipeId left join RecipeCourseMeal rcm on rcm.RecipeId = r.RecipeId left join RecipeCookbook rcb on rcb.RecipeId = r.recipeid where ri.RecipeId is null and d.RecipeId is null and rcm.RecipeId is null and rcb.RecipeId is null");
             int recipeid = 0;
             Assume.That(dt.Rows.Count > 0, "no recipes without related records in DB, can't test");
 
@@ -186,7 +180,7 @@ from recipe r
 join RecipeIngredient ri on ri.RecipeId = r.RecipeId
 left join Direction d on d.RecipeId = r.RecipeId
 left join RecipeCourseMeal rcm on rcm.RecipeId = r.RecipeId
-left join RecipeCookBook rcb on rcb.RecipeId = r.recipeid
+left join RecipeCookbook rcb on rcb.RecipeId = r.recipeid
 ";
             DataTable dt = SQLUtility.GetDataTable(sql);
             int recipeid = 0;

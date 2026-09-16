@@ -12,11 +12,11 @@ b) Whenever you have a record for a specific item include the name of the pictur
 
 /*
 Home Page
-    One result set with the number of recipes, meals, and cookbooks. Each row should have a column with the item name (Ex: Recipes) and a column with the count.
+    One result set with the number of recipes, meals, and Cookbooks. Each row should have a column with the item name (Ex: Recipes) and a column with the count.
 */
 select ItemName = 'Recipe', Count = count(*) from Recipe 
 union select 'Meal', count(*) from Meal
-union select 'CookBook', count(*) from CookBook b
+union select 'Cookbook', count(*) from Cookbook b
 
 /*
 Recipe list page:
@@ -130,51 +130,51 @@ order by c.CourseSequence, rcm.CourseType desc
 
 /*
 Cookbook list page:
-    Show all active cookbooks with author and number of recipes per book. Sorted by book name.
+    Show all active Cookbooks with author and number of recipes per book. Sorted by book name.
 */
-select b.CookBookName, w.WebUserName, NumRecipesPerBook = count(rc.RecipeCookBookId)
-from CookBook b
+select b.CookbookName, w.WebUserName, NumRecipesPerBook = count(rc.RecipeCookbookId)
+from Cookbook b
 join WebUser w
 on w.WebUserId = b.WebUserId
-left join RecipeCookBook rc
-on rc.CookBookId = b.CookBookId
+left join RecipeCookbook rc
+on rc.CookbookId = b.CookbookId
 where b.Active = 1
-group by b.CookBookName, w.WebUserName
-order by b.CookBookName
+group by b.CookbookName, w.WebUserName
+order by b.CookbookName
 
 /*
 Cookbook details page:
-    Show for specific cookbook:
-    a) Cookbook header: cookbook name, user, date created, price, number of recipes.
+    Show for specific Cookbook:
+    a) Cookbook header: Cookbook name, user, date created, price, number of recipes.
     b) List of all recipes in the correct order. Include recipe name, cuisine and number of ingredients and steps.  
         Note: User will click on recipe to see all ingredients and steps.
 */
 --a
-select b.CookBookName, w.WebUserName, b.DateCookBookCreated, b.CookBookPrice, NumRecipes = count(rc.CookBookId), b.CookBookImage
-from CookBook b
+select b.CookbookName, w.WebUserName, b.DateCookbookCreated, b.CookbookPrice, NumRecipes = count(rc.CookbookId), b.CookbookImage
+from Cookbook b
 join WebUser w
 on w.WebUserId = b.WebUserId
-join RecipeCookBook rc
-on rc.CookBookId = b.CookBookId
-where b.CookBookName = 'Health Nut'
-group by b.CookBookName, w.WebUserName, b.DateCookBookCreated, b.CookBookPrice, b.CookBookImage
+join RecipeCookbook rc
+on rc.CookbookId = b.CookbookId
+where b.CookbookName = 'Health Nut'
+group by b.CookbookName, w.WebUserName, b.DateCookbookCreated, b.CookbookPrice, b.CookbookImage
 
 --b
 select r.RecipeName, c.CuisineName, NumIngredients = (select count(*) from RecipeIngredient ri where ri.RecipeId = r.RecipeId), NumSteps = (select count(*) from Direction d where d.RecipeId = r.RecipeId)
 from Recipe r
 join Cuisine c
 on c.CuisineId = r.CuisineId
-join RecipeCookBook rc
+join RecipeCookbook rc
 on rc.RecipeId = r.RecipeId
-join CookBook b
-on b.CookBookId = rc.CookBookId
-where b.CookBookName = 'Health Nut'
+join Cookbook b
+on b.CookbookId = rc.CookbookId
+where b.CookbookName = 'Health Nut'
 order by rc.RecipeSequence
 
 /*
 April Fools Page:
-    On April 1st we have a page with a joke cookbook. For that page provide the following.
-    a) A list of all the recipes that are in all cookbooks. The recipe name should be the reverse of the real name with the first letter capitalized and all others lower case.
+    On April 1st we have a page with a joke Cookbook. For that page provide the following.
+    a) A list of all the recipes that are in all Cookbooks. The recipe name should be the reverse of the real name with the first letter capitalized and all others lower case.
         There are matching pictures for those names, include the reversed picture names so that we can show the joke pictures.
         Note: ".jpg" file extension must be at the end of the reversed picture name EX: Recipe_Seikooc_pihc_etalocohc.jpg
     b) When the user clicks on any recipe they should see a spoof steps lists showing the step instructions for the LAST step of EACH recipe in the system. No sequence required.
@@ -183,7 +183,7 @@ April Fools Page:
 --a
 select distinct RecipeName = concat(upper(substring(reverse(r.RecipeName), 1,1)), lower(substring(reverse(r.RecipeName), 2, len(r.RecipeName)))),
 RecipeImage = replace(concat('Recipe_', upper(substring(reverse(r.RecipeName), 1,1)), lower(substring(reverse(r.RecipeName), 2, len(r.RecipeName))), '.jpg'), ' ', '_')
-from RecipeCookBook rc
+from RecipeCookbook rc
 join Recipe r
 on r.RecipeId = rc.RecipeId
 group by r.RecipeId, r.RecipeName, r.RecipeImage
@@ -211,7 +211,7 @@ For site administration page:
     b) List of how many recipes each user created and average amount of days that it took for the user's recipes to be published.
     c) For each user, show three columns: Total number of meals, Total Active meals, Total Inactive meals. Show 0 if none
         Hint: For active/inactive columns, use SUM function with CASE to only include in sum if active/inactive 
-    d) For each user, show three columns: Total number of cookbooks, Total Active cookbooks, Total Inactive cookbooks. Show 0 if none
+    d) For each user, show three columns: Total number of Cookbooks, Total Active Cookbooks, Total Inactive Cookbooks. Show 0 if none
         Hint: For active/inactive columns, use SUM function with CASE to only include in sum if active/inactive 
     e) List of archived recipes that were never published, and how long it took for them to be archived.
 */
@@ -237,9 +237,9 @@ on m.WebUserId = w.WebUserId
 group by w.WebUserId
 
 --d
-select TotalCookBooks = count(b.CookBookId), TotalActiveCookBook = isnull(sum(case when b.Active = 1 then 1 else 0 end), 0), TotalInactiveCookBook = isnull(sum(case when b.Active = 0 then 1 else 0 end), 0)
+select TotalCookbooks = count(b.CookbookId), TotalActiveCookbook = isnull(sum(case when b.Active = 1 then 1 else 0 end), 0), TotalInactiveCookbook = isnull(sum(case when b.Active = 0 then 1 else 0 end), 0)
 from WebUser w
-left join CookBook b
+left join Cookbook b
 on w.WebUserId = b.WebUserId
 group by w.WebUserId
 
@@ -251,7 +251,7 @@ and r.DatePublished is null
 
 /*
 For user dashboard page:
-    a) For a specific user, show one result set with the number of recipes, meals, and cookbooks. Each row should have a column with the item name (Ex: Recipes) and a column with the count.
+    a) For a specific user, show one result set with the number of recipes, meals, and Cookbooks. Each row should have a column with the item name (Ex: Recipes) and a column with the count.
         Tip: If you would like, you can use a CTE to get the User Id once instead of in each union select
     b) List of the user's recipes, display the status and the number of hours between the status it's in and the one before that. Omit recipes in drafted status.
     
@@ -274,8 +274,8 @@ union select 'Meal', count(m.MealId)
 from Meal m
 join x
 on m.WebUserId = x.WebUserId
-union select 'CookBook', count(b.CookBookId)
-from CookBook b
+union select 'Cookbook', count(b.CookbookId)
+from Cookbook b
 join x
 on b.WebUserId = x.WebUserId
 

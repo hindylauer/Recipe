@@ -1,8 +1,8 @@
 /*
 Hearty Hearth- Recipe Website
 Looking for help managing the website
-Recipes, meals, cookbooks
-Show recipe on one page, may be part of a meal, or part of cookbook- duplicated on multiple pages, fix something in one place, but then don't switch in different place.
+Recipes, meals, Cookbooks
+Show recipe on one page, may be part of a meal, or part of Cookbook- duplicated on multiple pages, fix something in one place, but then don't switch in different place.
 
 Recipes-
 most basic, has cuisine type- chinese, mediterranean...
@@ -22,7 +22,7 @@ Meals-
 Staff creates meals, give it a meal, go into meal, give 
 courses- appetizer, main, dessert...- each course can have multiple recipes
 course has sequence in the meal.
--Every ingredient, recipe, meal, cookbook are unique
+-Every ingredient, recipe, meal, Cookbook are unique
 
 -course there are recipes, can have multiple recipes
 -meal- multiple courses.
@@ -32,9 +32,9 @@ can't repeat course type
 -Main can have a lot of recipes- those are multiple recipes part of main course, but there aren't 2 main courses.
 
 
-CookBooks- simple
-Name, Price, recipes in it- have certain sequence how presented in cookbook
-don't put meal in cookbook
+Cookbooks- simple
+Name, Price, recipes in it- have certain sequence how presented in Cookbook
+don't put meal in Cookbook
 
 Picture- anything with pic belongs to cetain type-
 name of pic very tight
@@ -44,7 +44,7 @@ no spaces, punctuation
 all jpg
 
 -Recipe more intense in terms of status
-meals and cookbooks- collection of recipes-
+meals and Cookbooks- collection of recipes-
 active- on site, inactive- on site, don't need date.
 
 User-
@@ -63,7 +63,7 @@ A: Yes, we may have a recipe which does not meet our standards and don't have ti
 Q: Do you want to record how many calories there are in a recipe? 
 A: Yes. 
 
-Q: You mentioned that the dates when meals and cookbooks become active or inactive are not important to you. However, would you be interested in keeping record of the dates they were created instead? 
+Q: You mentioned that the dates when meals and Cookbooks become active or inactive are not important to you. However, would you be interested in keeping record of the dates they were created instead? 
 A: Yes.
 
 Q from client: My website designer explained to me that the content for the web pages come from the database, and that the images on the web page are based on the file names, and those file name have to be part of the data that populates the site. The developer told me to double check with you that the file name will be in the database. Is that part of the spec?

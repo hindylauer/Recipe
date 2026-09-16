@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Text;
-using CPUFramework;
-
-namespace RecipeSystem
+﻿namespace RecipeSystem
 {
     public class Recipe
     {
@@ -33,6 +26,7 @@ namespace RecipeSystem
             DataTable dt = new();
             SqlCommand cmd = SQLUtility.GetSqlCommand("WebUserGet");
             cmd.Parameters["@All"].Value = 1;
+            cmd.Parameters["@IncludeBlank"].Value = 1;
             dt = SQLUtility.GetDataTable(cmd);
             return dt;            
         }
@@ -42,11 +36,12 @@ namespace RecipeSystem
             DataTable dt = new();
             SqlCommand cmd = SQLUtility.GetSqlCommand("CuisineGet");
             cmd.Parameters["@All"].Value = 1;
+            cmd.Parameters["@IncludeBlank"].Value = 1;
             dt = SQLUtility.GetDataTable(cmd);
             return dt;
         }
 
-        public static DataTable GetRecipeList()
+        public static DataTable GetRecipe()
         {
             DataTable dt = new();
             SqlCommand cmd = SQLUtility.GetSqlCommand("RecipeGet");
@@ -63,9 +58,6 @@ namespace RecipeSystem
             }
             DataRow r = dtrecipe.Rows[0];
             SQLUtility.SaveDataRow(r, "RecipeUpdate");
-
-
-            //SQLUtility.ExecuteSql(sql);
         }
 
         public static void Delete(DataTable dtrecipe)
@@ -75,6 +67,22 @@ namespace RecipeSystem
             SQLUtility.SetParamValue(cmd, "@RecipeId", id);
             SQLUtility.ExecuteSql(cmd);
         }
+
+        public static DataTable GetList()
+        {
+            SqlCommand cmd = SQLUtility.GetSqlCommand("RecipeGetList");
+            return SQLUtility.GetDataTable(cmd);
+
+        }
+
+        public static int CreateRecipeBasedOnPrevious(int basedonrecipeid)
+        {
+            SqlCommand cmd = SQLUtility.GetSqlCommand("RecipeCreateBasedOnPrevious");
+            SQLUtility.SetParamValue(cmd, "@BaseRecipeId", basedonrecipeid);
+            SQLUtility.ExecuteSql(cmd);
+            return (int)cmd.Parameters["@RecipeId"].Value;
+        }
+        
 
 
     }

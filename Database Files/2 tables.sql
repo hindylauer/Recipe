@@ -1,8 +1,8 @@
 Use HeartyHearthDB
 go
 
-drop table RecipeCookBook
-drop table CookBook
+drop table RecipeCookbook
+drop table Cookbook
 drop table RecipeCourseMeal
 drop table CourseMeal
 drop table Course
@@ -143,28 +143,28 @@ create table dbo.RecipeCourseMeal(
 )
 go
 
-create table dbo.CookBook(
-    CookBookId int not null identity primary key,
-    WebUserId int not null constraint f_CookBook_WebUser foreign key references WebUser(WebUserId),
-    CookBookName varchar(50) not null
-        constraint c_CookBook_CookBookName_cannot_be_blank check(CookBookName <> '')
-        constraint u_CookBook_CookBookName unique,
-    CookBookPrice decimal(10,2) not null
-        constraint c_CookBook_CookBookPrice_must_be_greater_than_zero check(CookBookPrice > 0),
-    DateCookBookCreated date not null
-        constraint c_CookBook_DateCookBookCreated__between_01_01_2010_and_currentdate check(DateCookBookCreated between '01/01/2010' and getdate()),
+create table dbo.Cookbook(
+    CookbookId int not null identity primary key,
+    WebUserId int not null constraint f_Cookbook_WebUser foreign key references WebUser(WebUserId),
+    CookbookName varchar(50) not null
+        constraint c_Cookbook_CookbookName_cannot_be_blank check(CookbookName <> '')
+        constraint u_Cookbook_CookbookName unique,
+    CookbookPrice decimal(10,2) not null
+        constraint c_Cookbook_CookbookPrice_must_be_greater_than_zero check(CookbookPrice > 0),
+    DateCookbookCreated date not null
+        constraint c_Cookbook_DateCookbookCreated__between_01_01_2010_and_currentdate check(DateCookbookCreated between '01/01/2010' and getdate()),
     Active bit not null,
-    CookBookImage as concat('CookBook', '_', replace(CookBookName, ' ', '_'), '.jpg')
+    CookbookImage as concat('Cookbook', '_', replace(CookbookName, ' ', '_'), '.jpg')
 )
 go
 
-create table dbo.RecipeCookBook(
-    RecipeCookBookId int not null identity primary key,
-    RecipeId int constraint f_Recipe_RecipeCookBook foreign key references Recipe(RecipeId),
-    CookBookId int constraint f_RecipeCookBook_CookBook foreign key references CookBook(CookBookId),
+create table dbo.RecipeCookbook(
+    RecipeCookbookId int not null identity primary key,
+    RecipeId int constraint f_Recipe_RecipeCookbook foreign key references Recipe(RecipeId),
+    CookbookId int constraint f_RecipeCookbook_Cookbook foreign key references Cookbook(CookbookId),
     RecipeSequence int not null
-        constraint c_RecipeCookBook_RecipeSequence_must_be_greater_than_zero check(RecipeSequence > 0),
-            constraint u_RecipeCookBook_RecipeId_CookBookId unique(RecipeId, CookBookId)
+        constraint c_RecipeCookbook_RecipeSequence_must_be_greater_than_zero check(RecipeSequence > 0),
+            constraint u_RecipeCookbook_RecipeId_CookbookId unique(RecipeId, CookbookId)
 )
 
 

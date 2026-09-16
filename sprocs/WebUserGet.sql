@@ -1,12 +1,15 @@
-create or alter procedure dbo.WebUserGet(@WebUserId int = 0, @All bit = 0, @WebUserName varchar(50) = '')
+create or alter procedure dbo.WebUserGet(@WebUserId int = 0, @All bit = 0, @WebUserName varchar(50) = '', @IncludeBlank bit = 0)
 as
 begin
-	select @WebUserName = nullif(@WebUserName , '')
+	select @WebUserName = nullif(@WebUserName , ''), @IncludeBlank = isnull(@IncludeBlank, 0)
 	select w.WebUserId, w.WebUserFirstName, w.WebUserLastName, w.WebUserName
 	from WebUser w
 	where w.WebUserId = @WebUserId
 	or @All = 1
 	or w.WebUserName like '%' + @WebUserName + '%'
+	union select 0, '', '', ''
+	where @IncludeBlank = 1
+	order by WebUserName
 end
 go
 
@@ -23,3 +26,4 @@ exec WebUserGet @WebUserName = 'h'
 exec WebUserGet @WebUserName = null
 
 exec WebUserGet @WebUserName = ''
+

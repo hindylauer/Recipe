@@ -1,12 +1,24 @@
-create or alter procedure dbo.DirectionGet(@DirectionId int = 0, @All bit = 0, @RecipeDirection varchar(150) = '') 
+use HeartyHearthDB
+go
+
+create or alter procedure dbo.DirectionGet(
+	@DirectionId int = 0,
+	@RecipeId int = 0,
+	@All bit = 0,
+	@IncludeBlank bit = 0,
+	@Message varchar(500) = '' output) 
 as
 begin
-	select @RecipeDirection = nullif(@RecipeDirection, '')
+	select @IncludeBlank = isnull(@IncludeBlank, 0)
+
 	select d.DirectionId, d.RecipeId, d.RecipeSequence, d.RecipeDirection
 	from Direction d
 	where d.DirectionId = @DirectionId
+	or d.RecipeId = @RecipeId
 	or @All = 1
-	or d.RecipeDirection like '%' + @RecipeDirection + '%'
+	union select 0, 0, 0, ' '
+	where @IncludeBlank = 1
+	order by d.RecipeSequence
 end
 go
 
@@ -18,8 +30,5 @@ declare @id int
 select top 1 @id = d.DirectionId from Direction d
 exec DirectionGet @DirectionId = @id
 
-exec DirectionGet @RecipeDirection = 'Pour'
 
-exec DirectionGet @RecipeDirection = null
-
-exec DirectionGet @RecipeDirection = ''
+select * from direction

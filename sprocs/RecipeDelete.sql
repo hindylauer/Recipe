@@ -13,9 +13,16 @@ begin
 
     begin try
     begin tran
-    delete Direction where recipeid = @RecipeId
-    delete RecipeIngredient where recipeid = @RecipeId
+    delete RecipeCourseMeal where RecipeId = @RecipeId 
+
+    delete RecipeIngredient where RecipeId = @RecipeId
+
+    delete Direction where RecipeId = @RecipeId
+
+    delete RecipeCookbook where RecipeId = @RecipeId
+
     delete Recipe where recipeid = @RecipeId
+    
     commit
     end try
     begin catch

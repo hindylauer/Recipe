@@ -7,6 +7,7 @@ begin
 	where c.CourseId = @CourseId
 	or @All = 1
 	or c.CourseName like '%' + @CourseName + '%'
+	order by c.CourseSequence
 end
 go
 

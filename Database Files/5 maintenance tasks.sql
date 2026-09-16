@@ -21,7 +21,7 @@ where w.WebUserName = 'emorris'
 
 delete rc
 --select *
-from RecipeCookBook rc
+from RecipeCookbook rc
 join Recipe r
 on rc.RecipeId = r.RecipeId
 join WebUser w
@@ -48,7 +48,7 @@ where w.WebUserName = 'emorris'
 
 delete b
 --select *
-from CookBook b
+from Cookbook b
 join WebUser w
 on b.WebUserId = w.WebUserId
 where w.WebUserName = 'emorris'
@@ -113,22 +113,22 @@ Sequence the book by recipe name.
 Tip: To get a unique sequential number for each row in the result set use the ROW_NUMBER() function. See Microsoft Docs.
 	 The following can be a column in your select statement: Sequence = ROW_NUMBER() over (order by colum name) , replace column name with the name of the column that the row number should be sorted
 */
-insert CookBook(WebUserId, CookBookName, CookBookPrice, DateCookBookCreated, Active)
-select w.WebUserId, 'Recipes by Hindy Lauer', CookBookPrice = (count(r.RecipeId) * 1.33 ), '01/20/21', 1
+insert Cookbook(WebUserId, CookbookName, CookbookPrice, DateCookbookCreated, Active)
+select w.WebUserId, 'Recipes by Hindy Lauer', CookbookPrice = (count(r.RecipeId) * 1.33 ), '01/20/21', 1
 from WebUser w
 join Recipe r
 on r.WebUserId = w.WebUserId
 where w.WebUserName = 'hlauer'
 group by w.WebUserId
 
-insert RecipeCookBook(RecipeId, CookBookId, RecipeSequence)
-select r.RecipeId, b.CookBookId, ROW_NUMBER() over(order by r.RecipeName)
-from CookBook b
+insert RecipeCookbook(RecipeId, CookbookId, RecipeSequence)
+select r.RecipeId, b.CookbookId, ROW_NUMBER() over(order by r.RecipeName)
+from Cookbook b
 cross join Recipe r
 join WebUser w
 on r.WebUserId = w.WebUserId
 where w.WebUserName = 'hlauer'
-and b.CookBookName = 'Recipes by Hindy Lauer'
+and b.CookbookName = 'Recipes by Hindy Lauer'
 
 /*
 4) Sometimes the calorie count of of an ingredient changes and we need to change the calorie total for all recipes that use that ingredient.
@@ -177,10 +177,10 @@ and r.RecipeStatus = 'Drafted'
 The email should have a unique guid link to follow, which should be shown in the format specified. 
 
 Email Body:
-Order cookbooks from HeartyHearth.com! We have [X] books for sale, average price is [Y]. You can order them all and receive a 25% discount, for a total of [Z].
+Order Cookbooks from HeartyHearth.com! We have [X] books for sale, average price is [Y]. You can order them all and receive a 25% discount, for a total of [Z].
 Click <a href = "www.heartyhearth.com/order/[GUID]">here</a> to order.
 */
-select EmailBody = concat('Order cookbooks from HeartyHearth.com! We have ', count(b.CookBookId),
-' books for sale, average price is ', cast(avg(b.CookBookPrice) as decimal(10,2)), '.', ' You can order them all and receive a 25% discount, for a total of ', cast(sum(b.CookBookPrice) * .75 as decimal(10,2)),
+select EmailBody = concat('Order Cookbooks from HeartyHearth.com! We have ', count(b.CookbookId),
+' books for sale, average price is ', cast(avg(b.CookbookPrice) as decimal(10,2)), '.', ' You can order them all and receive a 25% discount, for a total of ', cast(sum(b.CookbookPrice) * .75 as decimal(10,2)),
 '. Click <a href = "www.heartyhearth.com/order/', newid(), '">here</a> to order.')
-from CookBook b
+from Cookbook b

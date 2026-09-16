@@ -1,9 +1,8 @@
---AS You were missing a using, I added it in
 use HeartyHearthDB
 go
 
-delete RecipeCookBook
-delete CookBook
+delete RecipeCookbook
+delete Cookbook
 delete RecipeCourseMeal
 delete CourseMeal
 delete Course
@@ -268,16 +267,16 @@ join CourseMeal cm
 on cm.CourseId = o.CourseId and cm.MealId = m.MealId
 go
 
-insert CookBook(WebUserId, CookBookName, CookBookPrice, DateCookBookCreated, Active)
+insert Cookbook(WebUserId, CookbookName, CookbookPrice, DateCookbookCreated, Active)
 select (select w.WebUserId from WebUser w where w.WebUserName = 'mlauer'), 'Treats for Two', 30, '01/12/20', 0
 union select (select w.WebUserId from WebUser w where w.WebUserName = 'hlauer'), 'Health Nut', 25, '01/22/21', 1
-union select (select w.WebUserId from WebUser w where w.WebUserName = 'hlauer'), 'Food for Thought', 22, '09/18/24', 1
-union select (select w.WebUserId from WebUser w where w.WebUserName = 'hlauer'), 'Ready for Shabbos', 40, '08/05/22', 1
+union select (select w.WebUserId from WebUser w where w.WebUserName = 'cbeer'), 'Food for Thought', 22, '09/18/24', 1
+union select (select w.WebUserId from WebUser w where w.WebUserName = 'rweinberg'), 'Ready for Shabbos', 40, '08/05/22', 1
 go
 
 ;
 with x as(
-    select Recipe = 'Chocolate Chip Cookies', CookBook = 'Treats for Two', RecipeSequence = 1
+    select Recipe = 'Chocolate Chip Cookies', Cookbook = 'Treats for Two', RecipeSequence = 1
     union select 'Apple Yogurt Smoothie', 'Treats for Two', 2
     union select 'Cheese Bread', 'Treats for Two', 3
     union select 'Butter Muffin', 'Treats for Two', 4
@@ -291,13 +290,13 @@ with x as(
     union select 'Chocolate Chip Cookies', 'Ready for Shabbos', 3
 
 )
-insert RecipeCookBook(RecipeId, CookBookId, RecipeSequence)
-select r.RecipeId, b.CookBookId, x.RecipeSequence
+insert RecipeCookbook(RecipeId, CookbookId, RecipeSequence)
+select r.RecipeId, b.CookbookId, x.RecipeSequence
 from x
 join Recipe r
 on x.Recipe = r.RecipeName
-join CookBook b
-on b.CookBookName = x.CookBook
+join Cookbook b
+on b.CookbookName = x.Cookbook
 go
 
 select * from Cuisine
@@ -311,8 +310,8 @@ select * from Meal
 select * from Course
 select * from CourseMeal
 select * from RecipeCourseMeal
-select * from CookBook
-select * from RecipeCookBook
+select * from Cookbook
+select * from RecipeCookbook
 
 
 

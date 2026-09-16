@@ -1,25 +1,33 @@
-create or alter procedure dbo.CookBookGet(@CookBookId int = 0, @All bit = 0, @CookBookName varchar(50) = '')
+create or alter procedure dbo.CookbookGet(
+	@CookbookId int = 0,
+	@CookbookName varchar(50) = '',
+	@All bit = 0,
+	@IncludeBlank bit = 0
+	)
 as
 begin
-	select @CookBookName = nullif(@CookBookName, '')
-	select cb.CookBookId, cb.WebUserId, cb.CookBookName, cb.CookBookPrice, cb.DateCookBookCreated, cb.Active, cb.CookBookImage
-	from CookBook cb
-	where cb.CookBookId = @CookBookId
+	select @CookbookName = nullif(@CookbookName, ''), @IncludeBlank = isnull(@IncludeBlank, 0)
+	select cb.CookbookId, cb.WebUserId, cb.CookbookName, cb.CookbookPrice, cb.DateCookbookCreated, cb.Active
+	from Cookbook cb
+	where cb.CookbookId = @CookbookId
 	or @All = 1
-	or cb.CookBookName like '%' + @CookBookName + '%'
+	or cb.CookbookName like '%' + @CookbookName + '%'
+	union select 0, 0, ' ', 0, null, 0
+	where @IncludeBlank = 1
+	order by cb.CookBookName
 end
 go
 
-exec CookBookGet
+exec CookbookGet
 
-exec CookBookGet @All = 1
+exec CookbookGet @All = 1
 
 declare @id int
-select top 1 @id = cb.CookBookId from CookBook cb
-exec CookBookGet @CookBookId = @id
+select top 1 @id = cb.CookbookId from Cookbook cb
+exec CookbookGet @CookbookId = @id
 
-exec CookBookGet @CookBookName = 'food'
+exec CookbookGet @CookbookName = 'food'
 
-exec CookBookGet @CookBookName = null
+exec CookbookGet @CookbookName = null
 
-exec CookBookGet @CookBookName = ''
+exec CookbookGet @CookbookName = ''

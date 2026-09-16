@@ -107,23 +107,23 @@ RecipeCourseMeal
     CourseType bit default 0
             unique constraint CourseMealId and RecipeId
 
-CookBook
-    CookBookId int not null identity primary key,
+Cookbook
+    CookbookId int not null identity primary key,
     UserId foreign key,
-    CookBookName varchar(50) not null
+    CookbookName varchar(50) not null
         constraint c not blank,
         unique constraint
-    CookBookPrice int not null
+    CookbookPrice int not null
         constraint c greater than zero,
-    DateCookBookCreated date
-        constraint c DateCookBookCreated between January 1, 2000 and getdate(),
+    DateCookbookCreated date
+        constraint c DateCookbookCreated between January 1, 2000 and getdate(),
     Active bit not null
-    CookBookImage as conacat('CookBook', '-', replace(CookBook, ' ', '-'), '-.jpg')
+    CookbookImage as conacat('Cookbook', '-', replace(Cookbook, ' ', '-'), '-.jpg')
 
-RecipeCookBook
-    RecipeCookBookId int not null idenity primary key,
+RecipeCookbook
+    RecipeCookbookId int not null idenity primary key,
     RecipeId foreign key,
-    CookBookId foreign key,
+    CookbookId foreign key,
     RecipeSequence int not null
         constraint c greater than zero,
 

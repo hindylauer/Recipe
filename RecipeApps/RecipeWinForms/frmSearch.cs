@@ -1,7 +1,4 @@
-﻿using System.Data;
-using RecipeSystem;
-
-namespace RecipeWinForms
+﻿namespace RecipeWinForms
 {
     public partial class frmSearch : Form
     {
@@ -31,10 +28,12 @@ namespace RecipeWinForms
 
             if(rowindex > -1)
             {
-                id = (int)gRecipe.Rows[rowindex].Cells["RecipeId"].Value;
+                id = WindowsFormsUtility.GetIdFromGrid(gRecipe, rowindex, "RecipeId");
             }
-            frmRecipe frm = new();
-            frm.ShowForm(id);
+            if(this.MdiParent != null && this.MdiParent is frmMain)
+            {
+                ((frmMain)this.MdiParent).OpenForm(typeof(frmRecipeList), id);
+            }
         }
 
 

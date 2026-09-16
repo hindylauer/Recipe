@@ -3,7 +3,7 @@ returns int
 as
 begin
     declare @value int = 0
-    select @value = isnull(sum(r.AmountCalories), 0)
+    select @value = (sum(r.AmountCalories))
     from Meal m
     join CourseMeal cm
     on cm.MealId = m.MealId

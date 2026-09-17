@@ -13,6 +13,19 @@ begin
     declare @return int = 0
     select @RecipeCookbookId = isnull(@RecipeCookbookId, 0)
 
+    if exists
+    (
+        select *
+        from RecipeCookbook rc
+        where rc.CookbookId = @CookbookId
+        and rc.RecipeSequence = @RecipeSequence
+        and rc.RecipeCookbookId <> @RecipeCookbookId
+    )
+    begin
+        set @Message = 'Recipe sequence numbers must be unique.'
+        return 1
+    end
+
     if @RecipeCookbookId = 0
     begin
         insert RecipeCookBook(RecipeId, CookBookId, RecipeSequence)

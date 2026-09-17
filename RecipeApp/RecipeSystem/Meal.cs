@@ -21,7 +21,6 @@
             DataTable dt = new();
             SqlCommand cmd = SQLUtility.GetSqlCommand("WebUserGet");
             cmd.Parameters["@All"].Value = 1;
-            cmd.Parameters["@IncludeBlank"].Value = 1;
             dt = SQLUtility.GetDataTable(cmd);
             return dt;
         }

@@ -35,7 +35,6 @@
         }
 
 
-
         private void BindData()
         {
             DataTable dt = Recipe.GetList();
@@ -47,6 +46,13 @@
 
         private void ShowRecipeColumns()
         {
+            gData.Columns["RecipeId"].Visible = false;
+            gData.Columns["WebUserId"].Visible = false;
+            gData.Columns["CuisineId"].Visible = false;
+            gData.Columns["DateDrafted"].Visible = false;
+            gData.Columns["DatePublished"].Visible = false;
+            gData.Columns["DateArchived"].Visible = false;
+
             gData.Columns["RecipeName"].DisplayIndex = 0;
             gData.Columns["RecipeName"].HeaderText = "Recipe Name";
 
@@ -84,7 +90,11 @@
 
         private void GData_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
         {
-                ShowRecipeForm(e.RowIndex);
+            if(e.RowIndex < 0)
+            {
+                return;
+            }
+            ShowRecipeForm(e.RowIndex);
         }
 
     }

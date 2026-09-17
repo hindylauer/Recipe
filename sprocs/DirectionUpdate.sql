@@ -6,13 +6,26 @@ create or alter procedure dbo.DirectionUpdate(
     @RecipeId int,
     @RecipeSequence int,
     @RecipeDirection varchar(150),
-    @Message varchar(500) = output
+    @Message varchar(500) = '' output
 )
 as
 begin
     declare @return int = 0
 
     select @DirectionId = isnull(@DirectionId, 0)
+
+    if exists
+    (
+        select *
+        from Direction d
+        where d.RecipeId = @RecipeId
+        and d.RecipeSequence = @RecipeSequence
+        and d.DirectionId <> @DirectionId
+    )
+    begin
+        set @Message = 'Step sequence numbers must be unique.'
+        return 1
+    end
 
     if @DirectionId = 0
     begin

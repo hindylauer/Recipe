@@ -4,7 +4,8 @@
     {
         public static DataTable GetList()
         {
-            SqlCommand cmd = SQLUtility.GetSqlCommand("CookbookGetList");
+            SqlCommand cmd = SQLUtility.GetSqlCommand("CookbookGet");
+            SQLUtility.SetParamValue(cmd, "@All", 1);
             return SQLUtility.GetDataTable(cmd);
         }
 
@@ -22,7 +23,6 @@
             DataTable dt = new();
             SqlCommand cmd = SQLUtility.GetSqlCommand("WebUserGet");
             cmd.Parameters["@All"].Value = 1;
-            cmd.Parameters["@IncludeBlank"].Value = 1;
             dt = SQLUtility.GetDataTable(cmd);
             return dt;
         }

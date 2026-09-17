@@ -8,7 +8,7 @@ create or alter procedure dbo.RecipeIngredientUpdate(
     @MeasurementId int,
     @MeasurementAmount decimal (10,2),
     @IngredientSequence int,
-	@Message varchar(500) = output
+	@Message varchar(500) = '' output
 	)
 as
 begin
@@ -16,6 +16,18 @@ begin
 	
 select @RecipeIngredientId = isnull(@RecipeIngredientId, 0)
 
+if exists
+    (
+        select *
+        from RecipeIngredient ri
+        where ri.RecipeId = @RecipeId
+        and ri.IngredientSequence = @IngredientSequence
+        and ri.IngredientId <> @IngredientId
+    )
+    begin
+        set @Message = 'Ingredient sequence numbers must be unique.'
+        return 1
+    end
     if @RecipeIngredientId = 0
     begin
         insert RecipeIngredient(RecipeId, IngredientId, MeasurementId, MeasurementAmount, IngredientSequence)

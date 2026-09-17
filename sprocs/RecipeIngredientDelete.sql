@@ -17,8 +17,10 @@ begin
         ;
     with x as
         (
-            select IngredientId,
-            NewSequence = ROW_NUMBER() over (partition by RecipeId order by IngredientSequence, IngredientId)
+            select RecipeIngredientId,
+            NewSequence = ROW_NUMBER() over (
+                partition by RecipeId
+                order by IngredientSequence, RecipeIngredientId)
             from RecipeIngredient ri
         )
             update ri
@@ -26,7 +28,7 @@ begin
                 IngredientSequence = x.NewSequence
             from RecipeIngredient ri
             join x
-            on x.IngredientId = ri.IngredientId
+            on x.RecipeIngredientId = ri.RecipeIngredientId
 
     return @return
 end

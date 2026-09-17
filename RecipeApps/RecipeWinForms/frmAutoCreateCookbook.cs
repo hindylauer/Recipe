@@ -13,7 +13,7 @@
 
         private void BindData()
         {
-            DataTable dt = DataMaintenance.GetDataList("WebUser", true);
+            DataTable dt = DataMaintenance.GetDataList("WebUser");
 
             dt.Columns.Add("WebUserFullName");
 

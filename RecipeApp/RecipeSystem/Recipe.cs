@@ -26,7 +26,6 @@
             DataTable dt = new();
             SqlCommand cmd = SQLUtility.GetSqlCommand("WebUserGet");
             cmd.Parameters["@All"].Value = 1;
-            cmd.Parameters["@IncludeBlank"].Value = 1;
             dt = SQLUtility.GetDataTable(cmd);
             return dt;            
         }
@@ -36,19 +35,18 @@
             DataTable dt = new();
             SqlCommand cmd = SQLUtility.GetSqlCommand("CuisineGet");
             cmd.Parameters["@All"].Value = 1;
-            cmd.Parameters["@IncludeBlank"].Value = 1;
             dt = SQLUtility.GetDataTable(cmd);
             return dt;
         }
 
-        public static DataTable GetRecipe()
-        {
-            DataTable dt = new();
-            SqlCommand cmd = SQLUtility.GetSqlCommand("RecipeGet");
-            cmd.Parameters["@All"].Value = 1;
-            dt = SQLUtility.GetDataTable(cmd);
-            return dt;
-        }
+        //public static DataTable GetRecipe()
+        //{
+        //    DataTable dt = new();
+        //    SqlCommand cmd = SQLUtility.GetSqlCommand("RecipeGet");
+        //    cmd.Parameters["@All"].Value = 1;
+        //    dt = SQLUtility.GetDataTable(cmd);
+        //    return dt;
+        //}
 
         public static void Save(DataTable dtrecipe)
         {
@@ -70,7 +68,8 @@
 
         public static DataTable GetList()
         {
-            SqlCommand cmd = SQLUtility.GetSqlCommand("RecipeGetList");
+            SqlCommand cmd = SQLUtility.GetSqlCommand("RecipeGet");
+            SQLUtility.SetParamValue(cmd, "@All", 1);
             return SQLUtility.GetDataTable(cmd);
 
         }

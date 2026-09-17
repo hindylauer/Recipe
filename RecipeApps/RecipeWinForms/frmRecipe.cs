@@ -73,8 +73,8 @@
             gIngredients.AutoGenerateColumns = true;
             gIngredients.DataSource = dtrecipeingredient;
 
-            WindowsFormsUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("Ingredient", true), "Ingredient", "IngredientName");
-            WindowsFormsUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("Measurement", true), "Measurement", "MeasurementDesc");
+            WindowsFormsUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("Ingredient"), "Ingredient", "IngredientName");
+            WindowsFormsUtility.AddComboBoxToGrid(gIngredients, DataMaintenance.GetDataList("Measurement"), "Measurement", "MeasurementDesc");
             WindowsFormsUtility.AddDeleteButtonToGrid(gIngredients, deletecolname);
             WindowsFormsUtility.FormatGridForEdit(gIngredients, "RecipeIngredient");
             gIngredients.AutoGenerateColumns = false;
@@ -165,6 +165,10 @@
             Application.UseWaitCursor = true;
             try
             {
+                if(WindowsFormsUtility.IsValidNumber(txtAmountCalories, "AmountCalories") == false)
+                {
+                    return false;
+                }
                 Recipe.Save(dtrecipe);
                 recipeid = SQLUtility.GetValueFromFirstRowAsInt(dtrecipe, "RecipeId");
                 this.Tag = recipeid;
@@ -311,8 +315,11 @@
 
         private void FrmRecipe_FormClosing(object? sender, FormClosingEventArgs e)
         {
+            gIngredients.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            gIngredients.EndEdit();
+            gSteps.EndEdit();
             bindsource.EndEdit();
-            if (SQLUtility.TableHasChanges(dtrecipe))
+            if (SQLUtility.TableHasChanges(dtrecipe) || SQLUtility.TableHasChanges(dtrecipeingredient) || SQLUtility.TableHasChanges(dtdirection))
             {
                 var res = MessageBox.Show($"Do you want to save changes to {this.Text} before closing the form?", Application.ProductName, MessageBoxButtons.YesNoCancel);
                 switch (res)
@@ -342,7 +349,10 @@
         {
             if (e.RowIndex >= 0 && gIngredients.Columns[e.ColumnIndex].Name == deletecolname)
             {
-                DeleteRecipeIngredient(e.RowIndex);
+                if (gIngredients.Rows[e.RowIndex].Cells[deletecolname].Value?.ToString() == "X")
+                {
+                    DeleteRecipeIngredient(e.RowIndex);
+                }
             }
         }
 
@@ -355,7 +365,10 @@
         {
             if(e.RowIndex >= 0 && gSteps.Columns[e.ColumnIndex].Name == deletecolname)
             {
-                DeleteRecipeDirection(e.RowIndex);
+                if (gSteps.Rows[e.RowIndex].Cells[deletecolname].Value?.ToString() == "X")
+                {
+                    DeleteRecipeDirection(e.RowIndex);
+                }   
             }
 
         }

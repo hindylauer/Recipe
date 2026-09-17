@@ -44,11 +44,13 @@
         private void ShowCookbookColumns()
         {
             gData.Columns["CookbookId"].Visible = false;
+            gData.Columns["WebUserId"].Visible = false;
+            gData.Columns["DateCookbookCreated"].Visible = false;
+            gData.Columns["Active"].Visible = false;
 
             gData.Columns["CookbookName"].HeaderText = "Cookbook Name";
             gData.Columns["CookbookName"].DisplayIndex = 0;
 
-            gData.Columns["Author"].HeaderText = "User";
             gData.Columns["Author"].DisplayIndex = 1;
 
             gData.Columns["NumRecipes"].HeaderText = "Num Recipes";
@@ -72,6 +74,10 @@
 
         private void GData_CellDoubleClick(object? sender, DataGridViewCellEventArgs e)
         {
+            if(e.RowIndex < 0)
+            {
+                return;
+            }
             ShowCookbookForm(e.RowIndex);
         }
 

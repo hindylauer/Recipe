@@ -158,9 +158,13 @@
 
         private void GData_CellContentClick(object? sender, DataGridViewCellEventArgs e)
         {
-            if (gData.Columns[e.ColumnIndex].Name == deletecolname)
+            if (e.RowIndex >= 0 && gData.Columns[e.ColumnIndex].Name == deletecolname)
             {
-                Delete(e.RowIndex);
+                if (gData.Rows[e.RowIndex].Cells[deletecolname].Value?.ToString() == "X")
+                {
+                    Delete(e.RowIndex);
+                }
+                    
             }
         }
     }

@@ -83,6 +83,10 @@
             Application.UseWaitCursor = true;
             try
             {
+                if (WindowsFormsUtility.IsValidNumber(txtCookbookPrice, "CookbookPrice") == false)
+                {
+                    return false;
+                }
                 Cookbook.Save(dtcookbook);
                 cookbookid = SQLUtility.GetValueFromFirstRowAsInt(dtcookbook, "CookbookId");
                 this.Tag = cookbookid;
@@ -138,7 +142,7 @@
             gData.AutoGenerateColumns = true;
             gData.DataSource = dtrecipecookbook;
 
-            WindowsFormsUtility.AddComboBoxToGrid(gData, DataMaintenance.GetDataList("Recipe", true), "Recipe", "RecipeName");
+            WindowsFormsUtility.AddComboBoxToGrid(gData, DataMaintenance.GetDataList("Recipe"), "Recipe", "RecipeName");
             WindowsFormsUtility.AddDeleteButtonToGrid(gData, deletecolname);
             WindowsFormsUtility.FormatGridForEdit(gData, "RecipeCookbook");
             gData.AutoGenerateColumns = false;
@@ -211,14 +215,20 @@
         {
             if(e.RowIndex >= 0 && gData.Columns[e.ColumnIndex].Name == deletecolname)
             {
-                DeleteRecipeCookbook(e.RowIndex);
+                if (gData.Rows[e.RowIndex].Cells[deletecolname].Value?.ToString() == "X")
+                {
+                    DeleteRecipeCookbook(e.RowIndex);
+                }
+                    
             }
         }
 
         private void FrmCookbook_FormClosing(object? sender, FormClosingEventArgs e)
         {
+            gData.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            gData.EndEdit();
             bindsource.EndEdit();
-            if (SQLUtility.TableHasChanges(dtcookbook))
+            if (SQLUtility.TableHasChanges(dtcookbook) || SQLUtility.TableHasChanges(dtrecipecookbook))
             {
                 var res = MessageBox.Show($"Do you want to save changes to {this.Text} before closing the form?", Application.ProductName, MessageBoxButtons.YesNoCancel);
                 switch (res)

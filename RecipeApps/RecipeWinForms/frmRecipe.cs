@@ -22,6 +22,8 @@
             gIngredients.CellContentClick += GIngredients_CellContentClick;
             btnStepsSave.Click += BtnStepsSave_Click;
             gSteps.CellContentClick += GSteps_CellContentClick;
+            gIngredients.CellValidating += GIngredients_CellValidating;
+            gSteps.CellValidating += GSteps_CellValidating;
             this.FormClosing += FrmRecipe_FormClosing;
             this.Shown += FrmRecipe_Shown;
             
@@ -165,7 +167,7 @@
             Application.UseWaitCursor = true;
             try
             {
-                if(WindowsFormsUtility.IsValidNumber(txtAmountCalories, "AmountCalories") == false)
+                if(WindowsFormsUtility.IsValidNumberTextBox(txtAmountCalories, "AmountCalories") == false)
                 {
                     return false;
                 }
@@ -217,6 +219,12 @@
             }
         }
 
+        private void GIngredients_CellValidating(object? sender, DataGridViewCellValidatingEventArgs e)
+        {
+            WindowsFormsUtility.ValidateNumericGridCell(gIngredients, e, new string[] { "MeasurementAmount", "IngredientSequence" });
+        }
+
+
         private void SaveRecipeIngredient()
         {
             Application.UseWaitCursor = true;
@@ -255,6 +263,11 @@
             {
                 gIngredients.Rows.RemoveAt(rowindex);
             }
+        }
+
+        private void GSteps_CellValidating(object? sender, DataGridViewCellValidatingEventArgs e)
+        {
+            WindowsFormsUtility.ValidateNumericGridCell(gSteps, e, new string[] { "RecipeSequence" });
         }
 
         private void SaveRecipeDirection()

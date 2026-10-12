@@ -16,7 +16,9 @@
             BindData(currenttabletype);
             btnSave.Click += BtnSave_Click;
             gData.CellContentClick += GData_CellContentClick;
+            gData.CellValidating += GData_CellValidating;
         }
+
 
 
         private void BindData(TableTypeEnum tabletype)
@@ -46,6 +48,11 @@
             optIngredient.Tag = TableTypeEnum.Ingredient;
             optMeasurement.Tag = TableTypeEnum.Measurement;
             optCourse.Tag = TableTypeEnum.Course;
+        }
+
+        private void GData_CellValidating(object? sender, DataGridViewCellValidatingEventArgs e)
+        {
+            WindowsFormsUtility.ValidateNumericGridCell(gData, e, new string[] { "CourseSequence" });
         }
 
         private bool Save()

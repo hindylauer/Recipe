@@ -20,11 +20,12 @@
             btnDelete.Click += BtnDelete_Click;
             btnRecipeSave.Click += BtnRecipeSave_Click;
             gData.CellContentClick += GData_CellContentClick;
+            gData.CellValidating += GData_CellValidating;
             this.FormClosing += FrmCookbook_FormClosing;
             this.Shown += FrmCookbook_Shown;
         }
 
-
+  
 
         private void FrmCookbook_Shown(object? sender, EventArgs e)
         {
@@ -83,7 +84,7 @@
             Application.UseWaitCursor = true;
             try
             {
-                if (WindowsFormsUtility.IsValidNumber(txtCookbookPrice, "CookbookPrice") == false)
+                if (WindowsFormsUtility.IsValidNumberTextBox(txtCookbookPrice, "CookbookPrice") == false)
                 {
                     return false;
                 }
@@ -165,6 +166,10 @@
             gData.Columns["RecipeSequence"].HeaderText = "Sequence";
         }
 
+        private void GData_CellValidating(object? sender, DataGridViewCellValidatingEventArgs e)
+        {
+            WindowsFormsUtility.ValidateNumericGridCell(gData, e, new string[] { "RecipeSequence" });
+        }
         private void SaveRecipeCookbook()
         {
         

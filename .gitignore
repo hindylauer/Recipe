@@ -11,6 +11,9 @@
 *.sln.docstates
 *.env
 
+#secreate files
+*create-login.sql
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

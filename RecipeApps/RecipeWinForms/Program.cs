@@ -17,7 +17,6 @@ namespace RecipeWinForms
 #if DEBUG
             f.Text = f.Text + " -DEV";
 #endif
-            //DBManager.SetConnectionString("Server=tcp:dev-hindy.database.windows.net,1433;Initial Catalog = HeartyHearthDB;Persist Security Info=False;User ID =recipeappadmin; Password=Recipe123!;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30");
             Application.Run(f);
         }
     }

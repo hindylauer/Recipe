@@ -39,14 +39,14 @@
             return dt;
         }
 
-        //public static DataTable GetRecipe()
-        //{
-        //    DataTable dt = new();
-        //    SqlCommand cmd = SQLUtility.GetSqlCommand("RecipeGet");
-        //    cmd.Parameters["@All"].Value = 1;
-        //    dt = SQLUtility.GetDataTable(cmd);
-        //    return dt;
-        //}
+        public static DataTable GetRecipe()
+        {
+            DataTable dt = new();
+            SqlCommand cmd = SQLUtility.GetSqlCommand("RecipeGet");
+            cmd.Parameters["@All"].Value = 1;
+            dt = SQLUtility.GetDataTable(cmd);
+            return dt;
+        }
 
         public static void Save(DataTable dtrecipe)
         {
